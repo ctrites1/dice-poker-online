@@ -5,7 +5,7 @@ export function ScoreDisplay() {
 	const { currentPlayer, playerStats } = useGameStore();
 
 	return (
-		<div className="bg-white p-6 rounded-lg shadow-lg">
+		<div className="bg-stone-950 p-6 rounded-lg shadow-lg">
 			<h2 className="text-xl font-semibold mb-4">Game Stats</h2>
 			<div className="space-y-4">
 				<div className="flex justify-between items-center">

@@ -23,6 +23,7 @@ A real-time multiplayer dice poker game where players can create accounts, join 
 - TailwindCSS for UI styling
 - Socket.io client for real-time communication
 ~~- React Router for navigation~~
+- Tanstack Router and Query (tentative)
 ~~- React Query for state management~~
 - Web Audio API for spatial sound effects
 - WebGL 2.0 for hardware acceleration
@@ -34,6 +35,7 @@ A real-time multiplayer dice poker game where players can create accounts, join 
 - PostgreSQL for persistent data
 ~~- Redis for session management and caching~~
 <!-- - JWT for authentication -->
+- Kinde for Auth (tentative)
 <!-- - Bull for job queues -->
 
 ### 2.3 Infrastructure

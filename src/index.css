@@ -1,24 +1,43 @@
+@import "./styles/fonts.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-  
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	line-height: 1.5;
+	color-scheme: light dark;
+	color: rgba(255, 255, 255, 0.87);
+	--wood-grain-dark: #221912;
+	--wood-grain-light: #483227;
+
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.page-background {
+	background: rgb(51, 38, 29);
+	background: -moz-radial-gradient(
+		circle,
+		rgba(51, 38, 29, 1) 11%,
+		rgba(34, 25, 18, 1) 80%
+	);
+	background: -webkit-radial-gradient(
+		circle,
+		rgba(51, 38, 29, 1) 11%,
+		rgba(34, 25, 18, 1) 80%
+	);
+	background: radial-gradient(
+		circle,
+		rgba(51, 38, 29, 1) 11%,
+		rgba(34, 25, 18, 1) 80%
+	);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#33261d",endColorstr="#221912",GradientType=1);
 }
 
 body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
+	margin: 0;
+	min-width: 320px;
+	min-height: 100vh;
 }
