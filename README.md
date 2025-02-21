@@ -33,8 +33,8 @@ A real-time multiplayer dice poker game where players can create accounts, join 
 - Socket.io for WebSocket handling
 - PostgreSQL for persistent data
 ~~- Redis for session management and caching~~
-~~- JWT for authentication~~
-~~- Bull for job queues~~
+<!-- - JWT for authentication -->
+<!-- - Bull for job queues -->
 
 ### 2.3 Infrastructure
 - Docker containers for services
@@ -56,7 +56,7 @@ CREATE TABLE users (
     avatar_url VARCHAR(255),
     created_at TIMESTAMP,
     last_login TIMESTAMP,
-    currency_balance INTEGER,
+    points INTEGER DEFAULT 0,
     games_played INTEGER,
     games_won INTEGER
 );
@@ -83,7 +83,7 @@ CREATE TABLE games (
     created_at TIMESTAMP,
     ended_at TIMESTAMP,
     max_players INTEGER,
-    bet_amount INTEGER,
+    game_mode VARCHAR(20),
     winner_id UUID REFERENCES users(id)
 );
 ```
@@ -109,9 +109,10 @@ CREATE TABLE games (
 - GameRoom
 - DiceBoard
 - PlayerHand
-- BettingControls
+- ScoreDisplay
 - GameChat
 - Leaderboard
+- AchievementTracker
 
 ## 5. Game Mechanics
 
@@ -182,6 +183,13 @@ interface DiceRoll {
 - Hand ranking system
 - Tie-breaker rules
 
+### 5.3 Score System
+- Points-based scoring
+- Win/loss tracking
+- Personal statistics
+- Achievement system
+- Weekly leaderboards
+
 ## 6. Real-time Communication
 
 ### 6.1 WebSocket Events
@@ -194,7 +202,7 @@ interface GameEvents {
     // Game events
     ROLL_DICE: (diceConfig: DiceConfig) => void;
     HOLD_DIE: (dieId: number) => void;
-    // PLACE_BET: (amount: number) => void;
+    UPDATE_SCORE: (points: number) => void;
     END_TURN: () => void;
     
     // Chat events
@@ -292,7 +300,7 @@ interface GameEvents {
 ### 9.2 Game Metrics
 - Player engagement
 - Game completion rates
-- Currency circulation
+- Score distribution
 - Popular game modes
 - Peak usage times
 
