@@ -15,6 +15,7 @@ interface GameStore {
 	decrementRolls: () => void;
 	resetRolls: () => void;
 	updatePlayerStats: (stats: PlayerStats) => void;
+	updateDieValue: (index: number, value: number) => void;
 }
 
 export const useGameStore = create<GameStore>((set) => ({
@@ -41,4 +42,17 @@ export const useGameStore = create<GameStore>((set) => ({
 		set((state) => ({ rollsLeft: Math.max(0, state.rollsLeft - 1) })),
 	resetRolls: () => set({ rollsLeft: 3, heldDice: new Set() }),
 	updatePlayerStats: (stats) => set({ playerStats: stats }),
+	updateDieValue: (index, value) => {
+		set((state) => {
+			if (!state.currentPlayer) return state;
+			const updatedPlayer = {
+				...state.currentPlayer,
+				hand: state.currentPlayer.hand?.map((dieValue, i) =>
+					i === index ? value : dieValue
+				),
+			};
+
+			return { currentPlayer: updatedPlayer };
+		});
+	},
 }));

@@ -7,13 +7,14 @@ interface DieProps {
 	value: number;
 	position: [number, number, number];
 	isRolling: boolean;
+	onChange: (value: number) => void;
 }
 // Component to create an indented pip (the dots on a die face)
 const Pip = ({ position }: { position: [number, number, number] }) => {
 	// For indented pips, we'll use a cylinder with dark material
 	// Note: We move the pip inward (negative z) to create an indent effect
 	const [x, y, z] = position;
-	const depthPosition: [number, number, number] = [x, y, z * -0.5]; // Invert the z position
+	const depthPosition: [number, number, number] = [x, y, z * -1]; // Invert the z position
 
 	return (
 		<mesh position={depthPosition} rotation={[Math.PI / 2, 0, 0]}>
@@ -98,11 +99,10 @@ const DieFace = ({
 	);
 };
 
-export function Die({ value, position, isRolling }: DieProps) {
+export function Die({ value, position, isRolling, onChange }: DieProps) {
 	const rigidBody = useRef<RapierRigidBody>(null);
 	const [localValue, setLocalValue] = useState(value);
 	const wasRolling = useRef(false);
-	// Reference to track when the die has settled
 	const isSettled = useRef(false);
 	// Track last movement for settling detection
 	const lastPosition = useRef(new THREE.Vector3());
@@ -136,8 +136,6 @@ export function Die({ value, position, isRolling }: DieProps) {
 		}
 
 		if (isRolling) {
-			// Debugging
-			console.log("Rolling: ", rigidBody.current);
 			// Get current position and rotation
 			const currentPosition = rigidBody.current.translation();
 			const currentRotation = rigidBody.current.rotation();
@@ -195,6 +193,7 @@ export function Die({ value, position, isRolling }: DieProps) {
 		const rotMatrix = new THREE.Matrix4().makeRotationFromQuaternion(rotation);
 
 		// Find which face is most aligned with the up vector
+		// This is the face that is determined to be 'facing up'
 		let maxDot = -Infinity;
 		let upFaceIndex = 0;
 
@@ -210,7 +209,9 @@ export function Die({ value, position, isRolling }: DieProps) {
 
 		// Map face index to die value (following standard die where opposite faces sum to 7)
 		const faceValues = [6, 1, 5, 2, 3, 4];
-		setLocalValue(faceValues[upFaceIndex]);
+		const newValue = faceValues[upFaceIndex];
+		setLocalValue(newValue);
+		onChange(newValue);
 	};
 
 	return (

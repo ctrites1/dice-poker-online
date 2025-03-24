@@ -1,13 +1,21 @@
 import { Canvas } from "@react-three/fiber";
 import { Physics } from "@react-three/rapier";
 import { OrbitControls, Environment } from "@react-three/drei";
-import { Suspense } from "react";
+import { Suspense, useCallback } from "react";
 import { DiceTable } from "./DiceTable";
 import { Die } from "./Die";
 import { useGameStore } from "../../store/gameStore";
 
 export function DiceScene() {
-	const { currentPlayer, isRolling } = useGameStore();
+	const { currentPlayer, isRolling, updateDieValue } = useGameStore();
+
+	const handleDieChange = useCallback(
+		(index: number, newValue: number) => {
+			console.log(`Die ${index} landed on: ${newValue}`);
+			updateDieValue(index, newValue);
+		},
+		[updateDieValue]
+	);
 
 	return (
 		<div className="w-full h-[600px] bg-black rounded-lg overflow-hidden">
@@ -25,6 +33,9 @@ export function DiceScene() {
 								value={value}
 								position={[index - 2, 5, 0]}
 								isRolling={isRolling}
+								onChange={(newValue: number) =>
+									handleDieChange(index, newValue)
+								}
 							/>
 						))}
 					</Physics>
